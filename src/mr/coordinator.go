@@ -22,13 +22,8 @@ type Coordinator struct {
 	// Separate queues for map not yet started, processing & complete tasks
 	// Separate queues for reduce not yet started, processing & complete tasks
 	map0          []*Task
-	map1          []*Task
-	map2          []*Task
 	reduce0       []*Task
-	reduce1       []*Task
-	reduce2       []*Task
 	nReduce       int
-	workerCounter int
 	mu            sync.Mutex
 	map_remain    int
 	reduce_remain int

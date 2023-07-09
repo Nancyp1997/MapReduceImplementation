@@ -134,8 +134,7 @@ func PerformOp(taskType string, filename string, mapf func(string, string) []Key
 		//
 		for i, keyvalP := range keyValues {
 
-			oldName := fmt.Sprintf("mr-out-%d-%d.json", index, i)
-			newName := fmt.Sprintf("mr-out-%d-%d.json", index, i)
+			oldName := fmt.Sprintf("temp-mr-out-%d-%d.json", index, i)
 
 			tempfile, err := os.OpenFile(oldName, os.O_RDWR|os.O_CREATE, 0755)
 			if err != nil {
@@ -152,6 +151,7 @@ func PerformOp(taskType string, filename string, mapf func(string, string) []Key
 				}
 			}
 
+			newName := fmt.Sprintf("mr-out-%d-%d.json", index, i)
 			if err := os.Rename(oldName, newName); err != nil {
 				fmt.Fprintf(os.Stderr, "%s Worker: map cant rename temp file %v\n", time.Now().String(), oldName)
 				return false
@@ -165,7 +165,7 @@ func PerformOp(taskType string, filename string, mapf func(string, string) []Key
 			filename := fmt.Sprintf("mr-out-%d-%d.json", i, index)
 			file, err := os.Open(filename)
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "%s Worker: Unable to open file %s", time.Now().String(), filename)
+				fmt.Fprintf(os.Stderr, "%s Worker: Unable to open file %s\n", time.Now().String(), filename)
 				return false
 			}
 
