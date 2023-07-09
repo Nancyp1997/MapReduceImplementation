@@ -17,11 +17,12 @@ import (
 type Task struct {
 	Type int
 	// type=0 not yet started, 1 processing/waiting to complete, 2 complete
-	Status    int
-	ID        int
-	WorkerID  int
-	FileName  string
-	mu        sync.Mutex
+	Status   int
+	ID       int
+	WorkerID int
+	FileName string
+	lock     sync.Mutex
+
 	timestamp time.Time
 }
 
@@ -35,9 +36,11 @@ type WorkerRequestArgs struct {
 // Struct for master's reply
 type MasterReplyArgs struct {
 	AssignedWork    Task
+	Splite          int
 	IDGivenToWorker int
 	NReduce         int
 	TaskType        string
+	Index           int
 }
 
 type ACKArgs struct {
@@ -45,6 +48,13 @@ type ACKArgs struct {
 	WorkerID  int
 	FileInUse string
 }
+
+type ResponseArgs struct {
+	Index    int
+	TaskType string
+}
+
+type ResponseReply struct{}
 
 //
 // example to show how to declare the arguments
